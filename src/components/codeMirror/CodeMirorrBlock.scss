@@ -1,0 +1,37 @@
+.codeMiror__wrapper{
+  width: 44%;
+  border-radius: 10px;
+
+  .codeMirror-version{
+    width: 100%;
+    background: #323232;
+    padding: 11px;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 14 px;
+    font-weight: 500;
+  }
+
+  .codeMirorr{
+    width: 100%;
+    margin-bottom: 30px;
+
+    .ͼ16{
+      background: #232323;
+
+      .cm-gutters{
+        background: #1c1c1c;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px; /* ширина для вертикального скролла */
+      height: 8px; /* высота для горизонтального скролла */
+      background-color: #141414;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #686868;
+      border-radius: 10px;
+    }
+  }
+}

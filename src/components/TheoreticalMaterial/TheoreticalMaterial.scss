@@ -1,0 +1,54 @@
+.theoretical-material__wrapper{
+  width: 47%;
+  margin-left: 90px;
+  
+  .btn{
+    width: 100%;
+    margin-right: 10px;
+  }
+
+
+  .theoretical-material__inner{
+    width: 100%;
+    height: 300px;
+
+    padding: 20px;
+    margin-bottom: 50px;
+
+    font-size: 16px;
+    line-height: 124%;
+    font-weight: 500;
+
+    border-radius: 10px;
+    background: #323232;
+    position: relative;
+
+    .theoretical-material__title{
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+  
+    .theoretical-material__text{
+      width: 100%;
+    }
+  
+    .theoretical-material__expected{
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      background: #ffffff;
+      padding: 5px 20px 5px 20px;
+      font-size: 16px;
+      color: #1A1A1A;
+      width: 100%;
+      border-radius: 0px 0px 10px 10px;
+    }
+  }
+
+  .button__wrapper{
+    width: auto;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+  }
+}

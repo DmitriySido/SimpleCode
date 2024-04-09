@@ -3,15 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@uiw/codemirror-theme-okaidia": "^4.21.24",
+    "@uiw/react-codemirror": "^4.21.24",
+    "codemirror": "^6.0.1",
     "react": "^18.2.0",
+    "react-codemirror-merge": "^4.21.24",
     "react-dom": "^18.2.0",
+    "react-router": "^6.22.3",
+    "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
+    "sass": "^1.71.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "homepage": "https://github.com/DmitriySido/SimpleCode.git",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -34,5 +45,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "typescript": "^5.4.3"
   }
 }

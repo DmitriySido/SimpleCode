@@ -1,0 +1,70 @@
+.button {
+  display: flex;
+  justify-content: center; /* Выравнивание содержимого по горизонтали */
+  align-items: center; /* Выравнивание содержимого по вертикали */
+  height: 60px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 20px;
+  color: #fff;
+  transition: all .2s ease-in-out;
+  background: #222222;
+  position: relative; /* Добавим для позиционирования изображения */
+
+  &.theoretical-material {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #ffffff21;
+    margin: 0px 10px;
+    font-size: 18px;
+  }
+  
+  &.theoretical-material:hover {
+    background: #7a7a7a;
+    color: #ffffff;
+  }
+  
+  .button-img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 63%;
+    top: 50%;
+    transform: translate(60%, -50%);
+  }
+
+  @keyframes helpAnim {
+    0%{
+      opacity: 0.3;
+    }50%{
+      opacity: 1;
+    }100%{
+      opacity: 0.3;
+    }
+  }
+
+  &.clue-button.infinite {
+    animation-name: helpAnim;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+
+  &.theoretical-material.infinite {
+    animation-name: helpAnim;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+
+  &.clue-button{
+    background: transparent;
+    color: #fff;
+    border: 1px solid #ffffff21;
+    margin-top: 15px;
+    font-size: 18px;
+  }
+    
+  &.clue-button:hover {
+    background: #7a7a7a;
+    color: #ffffff;
+  }
+}

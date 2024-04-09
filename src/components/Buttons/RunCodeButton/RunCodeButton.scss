@@ -1,0 +1,73 @@
+.button__progress-bar__wrapper{
+  cursor: pointer;
+  width: 100%;
+  height: 60px;
+
+  background: #187700;
+  border-radius: 10px;
+
+  font-size: 20px;
+  color: #fff;
+  font-weight: 900;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  transition: all .2s ease-in-out;
+}
+
+.button__progress-bar__wrapper--false{
+  cursor: pointer;
+  width: 100%;
+  height: 60px;
+
+  background: #770000;
+  border-radius: 10px;
+
+  font-size: 20px;
+  color: #fff;
+  font-weight: 900;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  transition: all .2s ease-in-out;
+  position: relative;
+
+  .progress-inner{
+    background-color: blue;
+    height: 100%;
+    border-radius: 10px;
+  }
+}
+
+.button__progress-bar {
+  position: absolute;
+  border-radius: 10px;
+  top: -10px;
+  width: 100%; /* Ширина прогресс-бара, настройте по своему усмотрению */
+  height: 100%; /* Высота прогресс-бара, настройте по своему усмотрению */
+  border: 1px solid #0f4900;
+  margin-top: 10px; /* Расстояние между текстом и прогресс-баром */
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progress-inner {
+  height: 100%;
+  background-color: #0f4900; /* Цвет прогресс-бара, настройте по своему усмотрению */
+  transition: width 0.2s ease-in-out;
+  border-radius: 10px;
+}

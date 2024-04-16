@@ -8,13 +8,13 @@ const Profile = () => {
   const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
   const savedUserData = JSON.parse(savedUserDataString); // Парсим строку в объект
 
-  console.log(savedUserData)
+  console.log(savedUserData.userName)
 
   return(
     <div className='profile content'>
-
-      {savedUserData.checkInTime === 'Неизвестно' ? '' : <RegistrationPopup/>}
-      <AboutUser />
+      <p>Ваши очки: {savedUserData.userExperience}</p>
+      {savedUserData.userName === 'user78534392' ? <RegistrationPopup/> : ''}
+      <AboutUser savedUserData={savedUserData}/>
 
       <Stats />
     </div>

@@ -16,7 +16,7 @@ const Header: React.FC<ISelectedTaskProps> = ({ selectedTask, selectedTest }) =>
       <div className='header-user'>
         <div className='header-user__foto'>foto</div>
         <div className='header-user__level'>{selectedTask ? selectedTask?.level : selectedTest?.level} lvl</div>
-        <h3 className='user-experience'>14</h3>
+        <h3 className='user-experience'>+{selectedTask?.addExperience} очков</h3>
       </div>
     </header>
   )

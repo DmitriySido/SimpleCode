@@ -6,12 +6,14 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import CodeMirorrBlock from '../../codeMirror/CodeMirorrBlock';
 import { ITask } from '../../../utils/interfaces';
+import RegistrationPopup from '../../Popups/RegistrationPopup/RegistrationPopup';
 
 interface TaskProps {
   textTasks: ITask[];
 }
 
 const Task: React.FC<TaskProps> = ({ textTasks }) => {
+  
   const { taskId } = useParams<{ taskId: string }>();
   const selectedTask = textTasks.find(task => task.taskId === taskId);
   const [stateCheckAnswer, setStateCheckAnswer] = useState(false);
@@ -25,8 +27,12 @@ const Task: React.FC<TaskProps> = ({ textTasks }) => {
     return <div>Loading...</div>; // Возможно, здесь нужно что-то другое в случае отсутствия выбранной задачи
   }
 
+  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
+  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
+
   return (
     <div className="task__wrapper content">
+      {savedUserData.userName === 'user78534392' ? <RegistrationPopup/> : ''}
       <Header selectedTask={selectedTask} />
       <div className="task__inner">
         <TheoreticalMaterial randomTask={selectedTask} onCheckAnswer={() => setStateCheckAnswer(true)} wrongAnswer={wrongAnswer}/>

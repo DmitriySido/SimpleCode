@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './RegistrationPopup.scss'
 
 const RegistrationPopup = () => {
@@ -7,19 +7,32 @@ const RegistrationPopup = () => {
 
   const [userName, setUserName] = useState(savedUserData.userName || '');
   const [userPassword, setUserPassword] = useState(savedUserData.userPassword || '');
+  const [checkInTime, setCheckInTime] = useState(savedUserData.checkInTime || 'Неизвестно!');
+
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const formattedMonth = currentMonth <= 9 ? '0' + currentMonth : currentMonth;
+  const fullData = formattedMonth + '.' + currentDate.getFullYear();
+
 
   function getUserName(event: ChangeEvent<HTMLInputElement>) {
     setUserName(event.target.value);
+    setCheckInTime(fullData)
   }
 
   function getUserPassword(event: ChangeEvent<HTMLInputElement>) {
-    setUserPassword(event.target.value);
+    event.target.value.toString().length >= 8 && setUserPassword(event.target.value)
   }
 
   function submitButtonHandle() {
-    const updatedUserData = { ...savedUserData, userName, userPassword };
-    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+    if(userPassword.length >= 8){
+      const updatedUserData = { ...savedUserData, userName, userPassword, checkInTime };
+      localStorage.setItem('userData', JSON.stringify(updatedUserData));
+      window.location.reload()
+    }
   }
+
+  
   
   return(
     <div className='registration-popup__overlay'>
@@ -28,23 +41,23 @@ const RegistrationPopup = () => {
           <p className="title">Login</p>
           <form className="form">
             <div className="input-group">
-              <label>Username
+              <label>Ваше имя
                 <input onChange={getUserName} type="text" name="username" id="username" placeholder="" required/>
               </label>
             </div>
             <div className="input-group">
-              <label>Password
+              <label>Пароль (минимум 8 символов)
                 <input onChange={getUserPassword} type="password" name="password" id="password" placeholder="" required/>
               </label>
               <div className="forgot">
-                <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
+                <a rel="noopener noreferrer" href="#">Забыли пароль ?</a>
               </div>
             </div>
             <button onClick={submitButtonHandle} type='button' className="sign">Sign in</button>
           </form>
           <div className="social-message">
             <div className="line"></div>
-            <p className="message">Login with social accounts</p>
+            <p className="message">Войти при помощи: </p>
             <div className="line"></div>
           </div>
           <div className="social-icons">
@@ -64,8 +77,8 @@ const RegistrationPopup = () => {
               </svg>
             </button>
           </div>
-          <p className="signup">Don't have an account?
-            <a rel="noopener noreferrer" className="">Sign up</a>
+          <p className="signup">Нет аккаунта ?
+            <a rel="noopener noreferrer" className="">Регистрация</a>
           </p>
         </div>
       </div>

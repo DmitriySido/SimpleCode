@@ -10,6 +10,7 @@ import { ITest } from '../../../../utils/interfaces';
 import Header from '../../../Header/Header';
 import Button from '../../../Buttons/Button';
 import ExitPopup from '../../../Popups/ExitPopup/ExitPopup';
+import RegistrationPopup from '../../../Popups/RegistrationPopup/RegistrationPopup';
 
 interface TestsProps {
   testJS: ITest[];
@@ -18,13 +19,11 @@ interface TestsProps {
 const TestItem: React.FC<TestsProps> = ({ testJS }) => {
   const { testId } = useParams<{ testId: string }>();
   const selectedTest = testJS.find(task => task.testId === testId);
-  const [clickable, setClickable] = useState(true);
+  const [clickable, setClickable] = useState<boolean>(true);
   const [clue, setClue] = useState<boolean>()
   const [value, setValue] = useState(selectedTest?.code)
 
-  const checkClue = () => {
-    setClue(true)
-  }
+  const checkClue = () => setClue(true)
 
   useEffect(()=>{clue === true && setValue(selectedTest?.clue)}, [clue])
 
@@ -41,6 +40,27 @@ const TestItem: React.FC<TestsProps> = ({ testJS }) => {
     clearTimeout(timeoutId)
 
     if(content === selectedTest.answer){
+      if(!savedUserData.idCompletedTasks.includes(selectedTest.testId)){
+        savedUserData.userExperience += selectedTest.addExperience
+        savedUserData.idCompletedTasks.push(selectedTest.testId)
+
+        if(savedUserData.userExperience >= 20){
+          savedUserData.userLevel = 7
+        }else if(savedUserData.userExperience >= 70){
+          savedUserData.userLevel = 6
+        }else if(savedUserData.userExperience >= 100){
+          savedUserData.userLevel = 5
+        }else if(savedUserData.userExperience >= 140){
+          savedUserData.userLevel = 4
+        }else if(savedUserData.userExperience >= 170){
+          savedUserData.userLevel = 3
+        }else if(savedUserData.userExperience >= 210){
+          savedUserData.userLevel = 2
+        }else if(savedUserData.userExperience >= 250){
+          savedUserData.userLevel = 1
+        }
+        localStorage.setItem('userData', JSON.stringify(savedUserData));
+      }
       setClickable(false)
       document.body.style.backgroundColor = '#137006'
     }else{
@@ -51,9 +71,13 @@ const TestItem: React.FC<TestsProps> = ({ testJS }) => {
     timeoutId = setTimeout(() => {document.body.style.backgroundColor = '' }, 1000)
   }
 
+  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
+  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
+
 
   return (
     <div className="test__wrapper content">
+      {savedUserData.userName === 'user78534392' ? <RegistrationPopup/> : ''}
       <Header selectedTest={selectedTest}/>
       {clickable === false && <ExitPopup/>}
       <div className="test__inner">

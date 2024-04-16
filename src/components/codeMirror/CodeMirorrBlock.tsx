@@ -16,6 +16,13 @@ interface ICodeMirrorBlockProps{
 }
 
 function CodeMirorrBlock({ randomTask, stateCheckAnswer, setWrongAnswer }: ICodeMirrorBlockProps) {
+  console.log(randomTask.taskId)
+
+  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
+  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
+
+  console.log(savedUserData)
+
   const [value, setValue] = useState(randomTask.initialCode)
 
   useEffect(() => {
@@ -33,12 +40,55 @@ function CodeMirorrBlock({ randomTask, stateCheckAnswer, setWrongAnswer }: ICode
   
     if (result === randomTask.answer && ok === false) {
       document.body.style.backgroundColor = '#137006'
+      if(!savedUserData.idCompletedTasks.includes(randomTask.taskId)){
+        savedUserData.userExperience += randomTask.addExperience
+        savedUserData.idCompletedTasks.push(randomTask.taskId)
+
+        if(savedUserData.userExperience >= 20){
+          savedUserData.userLevel = 7
+        }else if(savedUserData.userExperience >= 70){
+          savedUserData.userLevel = 6
+        }else if(savedUserData.userExperience >= 100){
+          savedUserData.userLevel = 5
+        }else if(savedUserData.userExperience >= 140){
+          savedUserData.userLevel = 4
+        }else if(savedUserData.userExperience >= 170){
+          savedUserData.userLevel = 3
+        }else if(savedUserData.userExperience >= 210){
+          savedUserData.userLevel = 2
+        }else if(savedUserData.userExperience >= 250){
+          savedUserData.userLevel = 1
+        }
+        localStorage.setItem('userData', JSON.stringify(savedUserData));
+      }
     } else {
       document.body.style.backgroundColor = 'rgb(107, 2, 2)'
     }
     
     if(result === randomTask.answer){
       document.body.style.backgroundColor = '#137006'
+      if(!savedUserData.idCompletedTasks.includes(randomTask.taskId)){
+        savedUserData.userExperience += randomTask.addExperience
+        savedUserData.idCompletedTasks.push(randomTask.taskId)
+
+        if(savedUserData.userExperience >= 20){
+          savedUserData.userLevel = 7
+        }else if(savedUserData.userExperience >= 70){
+          savedUserData.userLevel = 6
+        }else if(savedUserData.userExperience >= 100){
+          savedUserData.userLevel = 5
+        }else if(savedUserData.userExperience >= 140){
+          savedUserData.userLevel = 4
+        }else if(savedUserData.userExperience >= 170){
+          savedUserData.userLevel = 3
+        }else if(savedUserData.userExperience >= 210){
+          savedUserData.userLevel = 2
+        }else if(savedUserData.userExperience >= 250){
+          savedUserData.userLevel = 1
+        }
+        
+        localStorage.setItem('userData', JSON.stringify(savedUserData));
+      }
     }else{
       setWrongAnswer()
       document.body.style.backgroundColor = 'rgb(107, 2, 2)'

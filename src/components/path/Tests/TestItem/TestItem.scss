@@ -62,6 +62,10 @@
         li:hover{
           transform: translateX(-10px) scale(1.03);
         }
+
+        li button{
+          background: transparent;
+        }
       }
     }
   }

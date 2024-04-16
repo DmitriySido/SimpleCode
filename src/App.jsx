@@ -11,15 +11,12 @@
   import TestItem from './components/path/Tests/TestItem/TestItem';
 
 function App() {
-
   // Проверяем, есть ли уже сохраненные данные в localStorage
   const savedUserData = localStorage.getItem('userData');
 
   // Если сохраненные данные отсутствуют, сохраняем исходный объект userData
-  if (!savedUserData) {
-    localStorage.setItem('userData', JSON.stringify(userData));
-  }
-  
+  if (!savedUserData) localStorage.setItem('userData', JSON.stringify(userData));
+
   console.log(savedUserData)
 
   return (

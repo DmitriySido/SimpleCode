@@ -19,7 +19,8 @@ export interface ITask {
   taskName: string,
   level: number,
   id: string,
-  steps: Steps
+  steps: Steps,
+  addExperience: number
 }
 
 export interface ITest {
@@ -32,7 +33,8 @@ export interface ITest {
   code: string,
   answer: string,
   moreAnswer: string[],
-  clue: string
+  clue: string,
+  addExperience: number
 }
 
 export interface IUser {

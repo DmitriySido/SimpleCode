@@ -40,8 +40,10 @@ export interface ITest {
 export interface IUser {
   userName: string,
   userPassword: string,
+  userGender: string,
   userLevel: number,
   userExperience: number,
   idCompletedTasks: string[],
   checkInTime: string,
+  savedCode: Record<string, any>
 }

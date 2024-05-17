@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './RunCodeButton.scss';
 
 interface RunCodeButtonProps  {
@@ -7,10 +7,10 @@ interface RunCodeButtonProps  {
 
 const RunCodeButton: React.FC<RunCodeButtonProps> = ({ executeCode }) => {
   const [progress, setProgress] = useState<number>(0);
-  const [resetProgress, setResetProgress] = useState<boolean>(false);
+  const resetProgressRef = useRef<boolean>(false);
 
   const handleButtonClick: () => void = () =>{
-    setResetProgress(false);
+    resetProgressRef.current = false;
     setProgress(0);
 
     const interval: number = window.setInterval(() => {
@@ -19,7 +19,7 @@ const RunCodeButton: React.FC<RunCodeButtonProps> = ({ executeCode }) => {
           return prevProgress + 1;
         } else {
           window.clearInterval(interval);
-          setResetProgress(true);
+          resetProgressRef.current = true;
           return prevProgress;
         }
       });
@@ -27,16 +27,16 @@ const RunCodeButton: React.FC<RunCodeButtonProps> = ({ executeCode }) => {
   };
 
   useEffect(() => {
-    if (resetProgress) {
+    if (resetProgressRef) {
       const resetTimeout: ReturnType<typeof setTimeout> = setTimeout(() => {
         setProgress(0);
-        setResetProgress(false);
+        resetProgressRef.current = false;
       }, 100);
 
       progress === 100 && executeCode()
       return () => clearTimeout(resetTimeout);
     }
-  }, [resetProgress, progress, executeCode]);
+  }, [resetProgressRef, progress, executeCode]);
 
   return (
     <div className='button__progress-bar__wrapper' onClick={handleButtonClick}>

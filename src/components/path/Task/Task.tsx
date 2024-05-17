@@ -2,7 +2,7 @@ import  './Task.scss'
 import { useParams } from 'react-router-dom';
 import Header from '../../Header/Header'
 import TheoreticalMaterial from '../../TheoreticalMaterial/TheoreticalMaterial'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import CodeMirorrBlock from '../../codeMirror/CodeMirorrBlock';
 import { ITask } from '../../../utils/interfaces';
@@ -19,15 +19,11 @@ const Task: React.FC<TaskProps> = ({ textTasks }) => {
   const [stateCheckAnswer, setStateCheckAnswer] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false)
   
-  useEffect(()=>{
-    console.log(wrongAnswer)
-  },[wrongAnswer])
-
   if (!selectedTask) {
     return <div>Loading...</div>; // Возможно, здесь нужно что-то другое в случае отсутствия выбранной задачи
   }
 
-  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
+  const savedUserDataString = localStorage.getItem('userData');
   const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
 
   return (
@@ -36,7 +32,7 @@ const Task: React.FC<TaskProps> = ({ textTasks }) => {
       <Header selectedTask={selectedTask} />
       <div className="task__inner">
         <TheoreticalMaterial randomTask={selectedTask} onCheckAnswer={() => setStateCheckAnswer(true)} wrongAnswer={wrongAnswer}/>
-        <CodeMirorrBlock randomTask={selectedTask} stateCheckAnswer={stateCheckAnswer} setWrongAnswer={() => setWrongAnswer(true)}/>
+        <CodeMirorrBlock selectedTask={selectedTask} stateCheckAnswer={stateCheckAnswer} setWrongAnswer={() => setWrongAnswer(true)}/>
       </div>
     </div>
   );

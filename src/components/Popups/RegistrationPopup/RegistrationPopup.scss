@@ -137,4 +137,14 @@
     line-height: 1rem;
     color: rgba(156, 163, 175, 1);
   }
+  .gender{
+    text-align: center;
+    padding: 15px 0px;
+    .gender__wrapper{
+      display: flex;
+      width: 50%;
+      margin: 0 auto;
+      margin-top: 15px;
+    }
+  }
 }

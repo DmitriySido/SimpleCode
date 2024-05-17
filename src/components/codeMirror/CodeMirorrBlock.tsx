@@ -1,126 +1,83 @@
 import React, { useState, useEffect } from 'react';
-
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { okaidia } from '@uiw/codemirror-theme-okaidia';
-
-import './CodeMirorrBlock.scss';
 import RunCodeButton from '../Buttons/RunCodeButton/RunCodeButton';
-
-import { ITask } from '../../utils/interfaces';
+import './CodeMirorrBlock.scss';
+import { ITask, IUser } from '../../utils/interfaces';
+import {LevelChangeLogic} from '../../utils/LevelChangeLogic';
 
 interface ICodeMirrorBlockProps{
-  randomTask: ITask,
+  selectedTask: ITask,
   stateCheckAnswer: boolean,
   setWrongAnswer: () => void
 }
 
-function CodeMirorrBlock({ randomTask, stateCheckAnswer, setWrongAnswer }: ICodeMirrorBlockProps) {
-  console.log(randomTask.taskId)
+interface DataObject {
+  [key: string]: any;
+}
 
-  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
-  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
+function CodeMirorrBlock({ selectedTask, stateCheckAnswer, setWrongAnswer }: ICodeMirrorBlockProps) {
+  const keyString = selectedTask.taskId
 
-  console.log(savedUserData)
+  const savedUserDataString = localStorage.getItem('userData')
+  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null
 
-  const [value, setValue] = useState(randomTask.initialCode)
+  const bgColor = (color: string) => document.body.style.backgroundColor = color
+  const [value, setValue] = useState(selectedTask.initialCode)
+  const [newDataObject, setNewDataObject] = useState<DataObject>({})
 
   useEffect(() => {
-    setValue(randomTask.initialCode)
+    savedUserData.savedCode[`${keyString}`] === undefined ? setValue(selectedTask.initialCode) : setValue(savedUserData.savedCode[`${keyString}`])
+    
+    stateCheckAnswer && setValue(selectedTask.answerCode)
+  }, [selectedTask.initialCode, stateCheckAnswer])
 
-    stateCheckAnswer && setValue(randomTask.answerCode)
-  }, [randomTask.initialCode, stateCheckAnswer])
+  const onChange = (val:any) => {
+    setValue(val)
+  }
 
-  const onChange = (val:string) => setValue(val)
+  useEffect(() => {
+    setNewDataObject({ [keyString]: value });
+  }, [value, keyString]);
 
-  const displayColor = (result: number | string | boolean | unknown, ok: boolean = true) => {
+  useEffect(() => {
+    if (Object.keys(newDataObject).length !== 0) {
+      if (newDataObject[keyString] !== selectedTask.initialCode) {
+        savedUserData.savedCode[keyString] = newDataObject[keyString];
+        localStorage.setItem('userData', JSON.stringify(savedUserData));
+      }
+    }
+  }, [newDataObject]);
+
+  const displayColor = (result: number | string | boolean | unknown | number[] | string[], ok: boolean = true) => {
     let timeoutId
   
     clearTimeout(timeoutId)
   
-    if (result === randomTask.answer && ok === false) {
-      document.body.style.backgroundColor = '#137006'
-      if(!savedUserData.idCompletedTasks.includes(randomTask.taskId)){
-        savedUserData.userExperience += randomTask.addExperience
-        savedUserData.idCompletedTasks.push(randomTask.taskId)
-
-        if(savedUserData.userExperience >= 20){
-          savedUserData.userLevel = 7
-        }else if(savedUserData.userExperience >= 70){
-          savedUserData.userLevel = 6
-        }else if(savedUserData.userExperience >= 100){
-          savedUserData.userLevel = 5
-        }else if(savedUserData.userExperience >= 140){
-          savedUserData.userLevel = 4
-        }else if(savedUserData.userExperience >= 170){
-          savedUserData.userLevel = 3
-        }else if(savedUserData.userExperience >= 210){
-          savedUserData.userLevel = 2
-        }else if(savedUserData.userExperience >= 250){
-          savedUserData.userLevel = 1
-        }
-        localStorage.setItem('userData', JSON.stringify(savedUserData));
-      }
+    if (result === selectedTask.answer) {
+      bgColor('#137006')
+      LevelChangeLogic(selectedTask, selectedTask.taskId)
     } else {
-      document.body.style.backgroundColor = 'rgb(107, 2, 2)'
-    }
-    
-    if(result === randomTask.answer){
-      document.body.style.backgroundColor = '#137006'
-      if(!savedUserData.idCompletedTasks.includes(randomTask.taskId)){
-        savedUserData.userExperience += randomTask.addExperience
-        savedUserData.idCompletedTasks.push(randomTask.taskId)
-
-        if(savedUserData.userExperience >= 20){
-          savedUserData.userLevel = 7
-        }else if(savedUserData.userExperience >= 70){
-          savedUserData.userLevel = 6
-        }else if(savedUserData.userExperience >= 100){
-          savedUserData.userLevel = 5
-        }else if(savedUserData.userExperience >= 140){
-          savedUserData.userLevel = 4
-        }else if(savedUserData.userExperience >= 170){
-          savedUserData.userLevel = 3
-        }else if(savedUserData.userExperience >= 210){
-          savedUserData.userLevel = 2
-        }else if(savedUserData.userExperience >= 250){
-          savedUserData.userLevel = 1
-        }
-        
-        localStorage.setItem('userData', JSON.stringify(savedUserData));
-      }
-    }else{
       setWrongAnswer()
-      document.body.style.backgroundColor = 'rgb(107, 2, 2)'
+      bgColor('rgb(107, 2, 2)')
     }
 
-    timeoutId = setTimeout(() => {document.body.style.backgroundColor = '' }, 1000)
+    timeoutId = setTimeout(() => {bgColor('') }, 1000)
   };
 
   const executeCode = () => {
     try {
       const newResult = eval(value)
 
-      if(randomTask.id === 'returnString'){
-        displayColor(newResult)
+      selectedTask.id === 'returnString' || selectedTask.id === 'returnNumber' ? displayColor(newResult) : displayColor(newResult)
 
-      }else if(randomTask.id === 'returnNumber'){
-        displayColor(newResult)
-
-      }else if(randomTask.id === 'returnArray'){
-        if (JSON.stringify(newResult) === JSON.stringify(randomTask.answer)) {
-          document.body.style.backgroundColor = '#137006';
-          const timeoutId = setTimeout(() => {document.body.style.backgroundColor = '' }, 1000);
-
-          return () => clearTimeout(timeoutId)
-        } else {
-          document.body.style.backgroundColor = 'rgb(107, 2, 2)';
-          const timeoutId = setTimeout(() => {document.body.style.backgroundColor = '' }, 1000);
-
-          return () => clearTimeout(timeoutId);
-        }
+      if(selectedTask.id === 'returnArray'){
+        JSON.stringify(newResult) === JSON.stringify(selectedTask.answer) ? bgColor('#137006') : bgColor('rgb(107, 2, 2)')
       }
-    } catch (error: any) {
+      const timeoutId = setTimeout(() => {bgColor('') }, 1000)
+      return () => clearTimeout(timeoutId)
+    } catch (error) {
       displayColor(null, false)
     }
   };

@@ -54,33 +54,6 @@ squared(numberToSquared)`,
       addExperience: 10
     },
     {
-      task: 'Напишите функцию squared, которая принимает в себя массив numberToSquared и возвращает новый массив с этими же числами возведённые в квадрат.',
-      expectedText: 'Ожидается: Array',
-      initialCode: `const numberToSquared = [2, 3, 4, 5];
-
-function squared(numbers){}`,
-      answerCode: `const numberToSquared = [2, 3, 4, 5];
-
-function squared(numbers){
-  return numbers.map((number) => number * number)
-}
-      
-squared(numberToSquared)`,
-      addExperience: 11,
-      answer: [4, 9, 16, 25],
-      taskId: '83',
-      lang: 'JavaScript',
-      taskName: 'Работа с массивом',
-      level: 8,
-      id: 'returnArray',
-      steps: {
-        step1: 'Создадим функцию с именем squared, которая принимает один параметр numbersToSquare, который будет массивом чисел.',
-        step2: 'Внутри функции создадим новый массив, в котором будем хранить результаты возведения в квадрат для каждого элемента исходного массива.',
-        step3: 'Используем метод map() для итерации по каждому элементу массива numbersToSquare. Для каждого элемента возводим его в квадрат и добавляем в новый массив.',
-        step4: 'Возвращаем новый массив с квадратами чисел.'
-      },
-    },
-    {
       task: 'Напишите функцию, которая находит и возвращает сумму элементов массива',
       expectedText: 'Ожидается: Number',
       initialCode: `const sum = [1, 2, 3, 4, 5];`,
@@ -124,10 +97,10 @@ function calculateAverage(numbers) {
 
 calculateAverage(numbers)`,
       answer: 6,
-      taskId: '85',
+      taskId: '71',
       lang: 'JavaScript',
       taskName: 'Получить среднее значение чисел в массиве',
-      level: 8,
+      level: 7,
       id: 'returnNumber',
       steps: {
         step1: 'Создаем функцию с именем findAverage, которая принимает один параметр array. Этот параметр представляет собой массив чисел, для которого мы будем находить среднее значение.',
@@ -137,46 +110,6 @@ calculateAverage(numbers)`,
         step5: 'Возвращаем полученное среднее значение.',
       },
       addExperience: 10
-    },
-    {
-      task: 'Напишите функцию, которая принимает число n и возвращает сумму всех простых чисел до n.',
-      expectedText: 'Ожидается: 17',
-      initialCode: `const n = 10;
-function isPrime(num){}`,
-      answerCode: `const n = 10;
-function isPrime(num) {
-  if (num <= 1) return false;
-  if (num === 2) return true;
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) return false;
-  }
-  return true;
-}
-    
-function sumOfPrimes(n) {
-  let sum = 0;
-  for (let i = 2; i <= n; i++) {
-    if (isPrime(i)) {
-      sum += i;
-    }
-  }
-  return sum;
-}
-sumOfPrimes(n);`,
-      answer: 17,
-      taskId: '71',
-      lang: 'JavaScript',
-      taskName: 'Сумма простых чисел',
-      level: 7,
-      id: 'returnNumber',
-      steps: {
-        step1: 'Функция sumOfPrimes начинается с инициализации переменной sum со значением 0. В этой переменной будет храниться сумма всех простых чисел.',
-        step2: 'Затем функция начинает итерацию с числа 2 до числа n включительно с помощью цикла for.',
-        step3: 'На каждой итерации проверяется, является ли текущее число простым с помощью функции isPrime(i).',
-        step4: 'Если число простое, оно добавляется к переменной sum.',
-        step5: 'После завершения всех итераций цикла функция возвращает сумму всех простых чисел от 2 до n.',
-      },
-      addExperience: 14
     },
 ]
 
@@ -206,17 +139,44 @@ const testJS = [
 }`,
   addExperience: 8
   },
+  {
+    task: 'Что вернет эта функция при передаче ей массива [1, 2, 3, 4, 5]',
+    testId: '611',
+    lang: 'JavaScript',
+    taskName: 'Что я верну ?',
+    level: 6,
+    id: 'returnNumber',
+    code: `function mysteryFunction(input) {
+  let result = 0;
+  for (let i = 0; i < input.length; i++) {
+    result += input[i];
+  }
+  return result;
+}`,
+  answer: 'Функция возвращает сумму всех элементов массива.',
+  moreAnswer: ['Функция возвращает длинну массива.', 'Функция возвращает новый массив.'],
+  clue: `function mysteryFunction(input) {
+  let result = 0; // Создаем переменную result и инициализируем её значением 0
+  for (let i = 0; i < input.length; i++) { // Начинаем цикл, перебирая элементы массива input
+    result += input[i]; // Добавляем текущий элемент массива к переменной result
+  }
+  return result; // Возвращаем сумму всех элементов массива
+}`,
+  addExperience: 7
+  },
 ]
 
 
 
 const userData = {
   userName: 'user78534392',
-  userPassword: '0000',
+  userPassword: '00000000',
+  userGender: 'Boy',
   userLevel: 8,
   userExperience: 0,
   idCompletedTasks: [],
   checkInTime: 'Неизвестно!',
+  savedCode: {}
 }
 
 

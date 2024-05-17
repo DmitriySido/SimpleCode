@@ -2,37 +2,35 @@ import React, { ChangeEvent, useState } from 'react';
 import './RegistrationPopup.scss'
 
 const RegistrationPopup = () => {
-  const savedUserDataString = localStorage.getItem('userData');
-  const savedUserData = savedUserDataString ? JSON.parse(savedUserDataString) : {};
+  const savedUserDataString = localStorage.getItem('userData')
+  const savedUserData = savedUserDataString ? JSON.parse(savedUserDataString) : {}
 
-  const [userName, setUserName] = useState(savedUserData.userName || '');
-  const [userPassword, setUserPassword] = useState(savedUserData.userPassword || '');
-  const [checkInTime, setCheckInTime] = useState(savedUserData.checkInTime || 'Неизвестно!');
+  const [userName, setUserName] = useState(savedUserData.userName || '')
+  const [userPassword, setUserPassword] = useState(savedUserData.userPassword || '')
+  const [checkInTime, setCheckInTime] = useState(savedUserData.checkInTime || 'Неизвестно!')
+  const [userGender, setGender] = useState(savedUserData.userGender)
 
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1;
-  const formattedMonth = currentMonth <= 9 ? '0' + currentMonth : currentMonth;
-  const fullData = formattedMonth + '.' + currentDate.getFullYear();
+  const currentMonth = new Date().getMonth() + 1
+  const formattedMonth = currentMonth <= 9 ? '0' + currentMonth : currentMonth
+  const fullData = formattedMonth + '.' + new Date().getFullYear()
 
 
-  function getUserName(event: ChangeEvent<HTMLInputElement>) {
+  const getUserName = (event: ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
     setCheckInTime(fullData)
   }
 
-  function getUserPassword(event: ChangeEvent<HTMLInputElement>) {
+  const getUserPassword = (event: ChangeEvent<HTMLInputElement>) => {
     event.target.value.toString().length >= 8 && setUserPassword(event.target.value)
   }
 
-  function submitButtonHandle() {
+  const submitButtonHandle = () => {
     if(userPassword.length >= 8){
-      const updatedUserData = { ...savedUserData, userName, userPassword, checkInTime };
+      const updatedUserData = { ...savedUserData, userName, userPassword, checkInTime, userGender };
       localStorage.setItem('userData', JSON.stringify(updatedUserData));
       window.location.reload()
     }
   }
-
-  
   
   return(
     <div className='registration-popup__overlay'>
@@ -48,6 +46,14 @@ const RegistrationPopup = () => {
             <div className="input-group">
               <label>Пароль (минимум 8 символов)
                 <input onChange={getUserPassword} type="password" name="password" id="password" placeholder="" required/>
+              </label>
+
+              <label className='gender'>
+                Gender
+                <div className='gender__wrapper'>
+                  Boy<input onChange={()=> setGender('Boy')} type="radio" name='gender'/>
+                  Girl<input onChange={()=> setGender('Girl')} type="radio" name='gender'/>
+                </div>
               </label>
               <div className="forgot">
                 <a rel="noopener noreferrer" href="#">Забыли пароль ?</a>

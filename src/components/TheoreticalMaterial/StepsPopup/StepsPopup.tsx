@@ -31,7 +31,6 @@ const StepsPopup:React.FC<PopupProps> = ({ stepsButtonHandle, randomTask }) => {
 
         <ul className='steps'>
           {steps.map((step, index) => {
-            console.log(step)
             return(
               <li key={index + 'Step'}>
                 <h2>{`Шаг ${index + 1}.`}</h2>

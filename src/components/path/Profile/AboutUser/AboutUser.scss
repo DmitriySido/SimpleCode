@@ -53,4 +53,21 @@
       }
     }
   }
+
+  .settings-button{
+    position: absolute;
+    right: 15px;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    transition: all .2s ease-in-out;
+
+    &:hover{
+      transform: rotate(90deg);
+    }
+
+    & img{
+      width: 30px;
+    }
+  }
 }

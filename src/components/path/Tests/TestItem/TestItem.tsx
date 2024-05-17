@@ -11,68 +11,49 @@ import Header from '../../../Header/Header';
 import Button from '../../../Buttons/Button';
 import ExitPopup from '../../../Popups/ExitPopup/ExitPopup';
 import RegistrationPopup from '../../../Popups/RegistrationPopup/RegistrationPopup';
+import { LevelChangeLogic } from '../../../../utils/LevelChangeLogic';
 
 interface TestsProps {
-  testJS: ITest[];
+  testJS: ITest[]
 }
 
 const TestItem: React.FC<TestsProps> = ({ testJS }) => {
-  const { testId } = useParams<{ testId: string }>();
-  const selectedTest = testJS.find(task => task.testId === testId);
-  const [clickable, setClickable] = useState<boolean>(true);
+  const { testId } = useParams<{ testId: string }>()
+  const selectedTest = testJS.find(task => task.testId === testId)
+  const [clickable, setClickable] = useState<boolean>(true)
   const [clue, setClue] = useState<boolean>()
   const [value, setValue] = useState(selectedTest?.code)
 
   const checkClue = () => setClue(true)
+  const bgColor = (color: string) => document.body.style.backgroundColor = color
 
   useEffect(()=>{clue === true && setValue(selectedTest?.clue)}, [clue])
 
   if (!selectedTest) {
-    return <div>Loading...</div>; // Возможно, здесь нужно что-то другое в случае отсутствия выбранной задачи
+    return <div>Loading...</div> // Возможно, здесь нужно что-то другое в случае отсутствия выбранной задачи
   }
 
-  const shuffledArray = [...selectedTest.moreAnswer, selectedTest.answer].sort(() => Math.random() - 0.5);
+  const shuffledArray = [...selectedTest.moreAnswer, selectedTest.answer].sort(() => Math.random() - 0.5)
 
   const answerHandle = (content: string) => {
-    console.log(content)
     let timeoutId
   
     clearTimeout(timeoutId)
 
     if(content === selectedTest.answer){
-      if(!savedUserData.idCompletedTasks.includes(selectedTest.testId)){
-        savedUserData.userExperience += selectedTest.addExperience
-        savedUserData.idCompletedTasks.push(selectedTest.testId)
-
-        if(savedUserData.userExperience >= 20){
-          savedUserData.userLevel = 7
-        }else if(savedUserData.userExperience >= 70){
-          savedUserData.userLevel = 6
-        }else if(savedUserData.userExperience >= 100){
-          savedUserData.userLevel = 5
-        }else if(savedUserData.userExperience >= 140){
-          savedUserData.userLevel = 4
-        }else if(savedUserData.userExperience >= 170){
-          savedUserData.userLevel = 3
-        }else if(savedUserData.userExperience >= 210){
-          savedUserData.userLevel = 2
-        }else if(savedUserData.userExperience >= 250){
-          savedUserData.userLevel = 1
-        }
-        localStorage.setItem('userData', JSON.stringify(savedUserData));
-      }
+      LevelChangeLogic(selectedTest, selectedTest.testId)
       setClickable(false)
-      document.body.style.backgroundColor = '#137006'
+      bgColor('#137006')
     }else{
       setClue(true)
-      document.body.style.backgroundColor = 'rgb(107, 2, 2)'
+      bgColor('rgb(107, 2, 2)')
     }
 
-    timeoutId = setTimeout(() => {document.body.style.backgroundColor = '' }, 1000)
+    timeoutId = setTimeout(() => {bgColor('') }, 1000)
   }
 
-  const savedUserDataString = localStorage.getItem('userData'); // Получаем строку данных из localStorage
-  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null;
+  const savedUserDataString = localStorage.getItem('userData')
+  const savedUserData = savedUserDataString !== null ? JSON.parse(savedUserDataString) : null
 
 
   return (

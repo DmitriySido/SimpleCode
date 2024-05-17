@@ -9,15 +9,11 @@
   import TypesSciptes from './components/TypesSciptes';
   import Tests from './components/path/Tests/Tests';
   import TestItem from './components/path/Tests/TestItem/TestItem';
-
+  
 function App() {
-  // Проверяем, есть ли уже сохраненные данные в localStorage
-  const savedUserData = localStorage.getItem('userData');
+  const savedUserData = localStorage.getItem('userData')
 
-  // Если сохраненные данные отсутствуют, сохраняем исходный объект userData
-  if (!savedUserData) localStorage.setItem('userData', JSON.stringify(userData));
-
-  console.log(savedUserData)
+  !savedUserData && localStorage.setItem('userData', JSON.stringify(userData))
 
   return (
     <div className='App'>
